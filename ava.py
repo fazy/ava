@@ -6,9 +6,9 @@ Usage:
     ava.py [--prompt=<prompt>] [--out-file=<out-file>] [--interactive]
 where:
     --prompt is an optional prompt to send before the message (if supplied, multiple will can be used, in order)
-    --in-file is an optional file to write the message from, otherwise stdin is used
+    --in-file is an optional file to write the message from, otherwise stdin is used; it cannot be used with --interactive
     --out-file is an optional file to write the response to, otherwise stdout is used
-    If --interactive is specified, don't exit but read the next message from stdin
+    --interactive causes the program to not exit but read the next message from stdin; it cannot be used with --in-file
 
 The config file is expected to be at ~/.ava/config and should be in the format (shown here with defaults):
 
@@ -31,19 +31,29 @@ import toml
 
 from typing import Dict, Any
 
+CHATBOT_NAME = 'Ava'
+
 
 def main():
     args = parse_args()
     config = load_config()
-
     openai.api_key = get_openai_api_key()
-    input = read_input(args)
-    response = prompt(input, config)
 
     if args['interactive']:
-        continue_interactive(config, input, response)
+        if not sys.stdin.isatty():
+            exit_with_error("Interactive mode requires stdin to be a terminal; "
+                            "this could also be caused by piping stdin to this program.")
+
+        converse_interactively(config)
     else:
+        first_user_input = read_first_user_input(args)
+        response = prompt(first_user_input, config)
         write_output(args, response)
+
+
+def exit_with_error(message):
+    print(message)
+    sys.exit(1)
 
 
 def write_output(args: Dict[str, Any], response: str):
@@ -57,19 +67,31 @@ def write_output(args: Dict[str, Any], response: str):
 
 
 def format_response(response: Dict) -> str:
-    message = response['choices'][0]['text']
-
-    formatted = message[1:] if message.startswith('\n') else message
-    return formatted
+    message = get_response_text(response)
+    return message.lstrip().rstrip() + "\n"
 
 
-def continue_interactive(config, input, response):
-    print("Not yet implemented")
-    pass
+def get_response_text(response) -> str:
+    return response['choices'][0]['text']
 
 
-def read_input(args: Dict[str, Any]):
-    if args['in_file']:
+def converse_interactively(config):
+    conversation = ''
+
+    print(f">>> Enter your first message. A blank message ends the conversation.\n")
+    while True:
+        user_input = input("You:\n")
+        if user_input == '':
+            break
+        conversation += '\n\n' + user_input
+
+        response = prompt(conversation, config)
+        print(f"\n{CHATBOT_NAME}:\n{format_response(response)}")
+        conversation += '\n\n' + get_response_text(response)
+
+
+def read_first_user_input(args: Dict[str, Any]):
+    if args['in_file'] is not None:
         with open(args['in_file'], 'r') as f:
             return f.read()
     else:
@@ -113,16 +135,17 @@ def load_config():
 
 def parse_args() -> Dict[str, Any]:
     parser = argparse.ArgumentParser(
-        description='Send a message to the openai chat API')
+        description=f'{CHATBOT_NAME}: CLI tool for interacting with OpenAI\'s chat.')
     parser.add_argument(
-        '--prompt', help='An optional prompt to send before the message (if supplied, multiple will can be used, in order)')
-    parser.add_argument(
-        '--in-file', help='An optional file to write the message from')
-    group = parser.add_mutually_exclusive_group()
+        '--prompt', help='An optional prompt to send before the message (if supplied, multiple can be used, in order)')
+    group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
-        '--out-file', help='An optional file to write the response to')
+        '--in-file', help='An optional file to write the message from')
     group.add_argument('--interactive', help='If specified, don\'t exit but read the next message from stdin',
                        action='store_true')
+    parser.add_argument(
+        '--out-file', help='An optional file to write the response to')
+
     args = parser.parse_args()
 
     return vars(args)
