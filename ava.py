@@ -138,7 +138,7 @@ def parse_args() -> Dict[str, Any]:
         description=f'{CHATBOT_NAME}: CLI tool for interacting with OpenAI\'s chat.')
     parser.add_argument(
         '--prompt', help='An optional prompt to send before the message (if supplied, multiple can be used, in order)')
-    group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group()
     group.add_argument(
         '--in-file', help='An optional file to write the message from')
     group.add_argument('--interactive', help='If specified, don\'t exit but read the next message from stdin',
@@ -147,6 +147,11 @@ def parse_args() -> Dict[str, Any]:
         '--out-file', help='An optional file to write the response to')
 
     args = parser.parse_args()
+
+    if sys.stdin.isatty():
+        if not args.in_file and not args.interactive:
+            parser.error(
+                'At least one of --in-file or --interactive must be specified')
 
     return vars(args)
 
