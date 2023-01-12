@@ -9,20 +9,37 @@ where:
     --in-file is an optional file to write the message from, otherwise stdin is used
     --out-file is an optional file to write the response to, otherwise stdout is used
     If --interactive is specified, don't exit but read the next message from stdin
+
+The config file is expected to be at ~/.ava/config and should be in the format (shown here with defaults):
+
+```
+[config]
+engine = "text-davinci-003"
+temperature = 0.7
+n = 1
+frequency_penalty = 0
+presence_penalty = 0
+max_tokens = 3200
+```
 """
 
 import argparse
 import openai
 import os
 import sys
+import toml
+
 from typing import Dict, Any
 
 
 def main():
     args = parse_args()
+    config = load_config()
+    print(config)
+
     openai.api_key = get_openai_api_key()
     input = read_input(args)
-    response = prompt(input)
+    response = prompt(input, config)
     print(response)
 
 
@@ -34,16 +51,39 @@ def read_input(args: Dict[str, Any]):
         return sys.stdin.read()
 
 
-def prompt(prompt: str) -> str:
+def prompt(prompt: str, config: Dict) -> str:
     return openai.Completion.create(
-        engine="text-davinci-003",
+        engine=config['engine'],
         prompt=prompt,
-        temperature=0.7,
-        n=2,
-        frequency_penalty=0,
-        presence_penalty=0,
-        max_tokens=3200,
+        temperature=config['temperature'],
+        n=config['n'],
+        frequency_penalty=config['frequency_penalty'],
+        presence_penalty=config['presence_penalty'],
+        max_tokens=config['max_tokens'],
     )
+
+
+def load_config():
+    config = {
+        'engine': 'text-davinci-003',
+        'temperature': 0.7,
+        'n': 2,
+        'frequency_penalty': 0,
+        'presence_penalty': 0,
+        'max_tokens': 3200
+    }
+
+    try:
+        with open(os.path.expanduser('~/.ava/config'), 'r') as f:
+            data = toml.load(f)
+
+            if data.get('config'):
+                config.update(data['config'])
+
+    except FileNotFoundError:  # no config file found, use defaults
+        pass
+
+    return config
 
 
 def parse_args() -> Dict[str, Any]:
