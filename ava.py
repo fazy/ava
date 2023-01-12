@@ -35,12 +35,37 @@ from typing import Dict, Any
 def main():
     args = parse_args()
     config = load_config()
-    print(config)
 
     openai.api_key = get_openai_api_key()
     input = read_input(args)
     response = prompt(input, config)
-    print(response)
+
+    if args['interactive']:
+        continue_interactive(config, input, response)
+    else:
+        write_output(args, response)
+
+
+def write_output(args: Dict[str, Any], response: str):
+    formatted = format_response(response)
+
+    if args['out_file']:
+        with open(args['out_file'], 'w') as f:
+            f.write(formatted)
+    else:
+        print(formatted)
+
+
+def format_response(response: Dict) -> str:
+    message = response['choices'][0]['text']
+
+    formatted = message[1:] if message.startswith('\n') else message
+    return formatted
+
+
+def continue_interactive(config, input, response):
+    print("Not yet implemented")
+    pass
 
 
 def read_input(args: Dict[str, Any]):
@@ -93,12 +118,13 @@ def parse_args() -> Dict[str, Any]:
         '--prompt', help='An optional prompt to send before the message (if supplied, multiple will can be used, in order)')
     parser.add_argument(
         '--in-file', help='An optional file to write the message from')
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         '--out-file', help='An optional file to write the response to')
-    parser.add_argument(
-        '--interactive', help='If specified, don\'t exit but read the next message from stdin', action='store_true')
-
+    group.add_argument('--interactive', help='If specified, don\'t exit but read the next message from stdin',
+                       action='store_true')
     args = parser.parse_args()
+
     return vars(args)
 
 
