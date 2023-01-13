@@ -1,36 +1,5 @@
 #!/usr/bin/env python3
 
-"""Command line tool that uses the OpenAI library to interact with their chat API
-
-Usage:
-    ava.py [--profile=<profile>] [--out-file=<out-file>] [--interactive]
-where:
-    --profile is the name of the configuration profile to use; if not specified, the default profile is used
-    --in-file is an optional file to write the message from, otherwise stdin is used; it cannot be used with --interactive
-    --out-file is an optional file to write the response to, otherwise stdout is used
-    --interactive causes the program to not exit but read the next message from stdin; it cannot be used with --in-file
-
-To use profiles, copy the profiles from example-profiles to ~/.ava/profiles. Each profile configures the model and includes a template for the initial prompt. The placeholder {{__INPUT__}} is replaced with the user's input (file, stdin or interactive prompt).
-
-The default profile is used if no profile is specified. A profile needn't have all the settings, which are inherited in order:
-
-- ~/.ava/profiles/<profile>.toml (if specified)
-- ~/.ava/profiles/default.toml
-- the built-in default
-
-The config file is expected to be at ~/.ava/config and should be in the format (shown here with defaults):
-
-```
-[config]
-engine = "text-davinci-003"
-temperature = 0.7
-n = 1
-frequency_penalty = 0
-presence_penalty = 0
-max_tokens = 2000
-```
-"""
-
 import argparse
 import openai
 import os
@@ -173,7 +142,7 @@ def parse_args() -> Dict[str, Any]:
         help='Select which configuration profile to use. If not specified, the default profile is used.')
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        '--in-file', help='An optional file to write the message from')
+        '--in-file', help='An optional file to read the message from')
     group.add_argument('--interactive', help='If specified, don\'t exit but read the next message from stdin',
                        action='store_true')
     parser.add_argument(
