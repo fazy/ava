@@ -73,6 +73,10 @@ You can also specify a configuration profile to use with the `--profile` flag. T
 
 `ava --profile=<profile>`
 
+By default profilesa are loaded from `~/.ava/profiles`. Change the profiles directory with the `--profiles-dir` flag:
+
+`ava --profiles-dir=<profiles-dir>`
+
 ### Interactive mode
 
 To converse with the chatbot, use the `--interactive` flag.:

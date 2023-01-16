@@ -4,9 +4,9 @@ import argparse
 import openai
 import os
 import sys
-import toml
 
 from typing import Dict, Any
+from profile import ProfileLoader
 
 CHATBOT_NAME = 'Ava'
 CONFIG_DIR = os.path.expanduser('~/.ava')
@@ -16,7 +16,11 @@ def main():
     args = parse_args()
     openai.api_key = get_openai_api_key()
 
-    profile = read_profile(args['profile'])
+    profile_loader = get_profile_loader(args['profile_dir'])
+    try:
+        profile = profile_loader.read_profile(args['profile'])
+    except RuntimeError as e:
+        exit_with_error(e)
 
     if args['interactive']:
         if not sys.stdin.isatty():
@@ -35,45 +39,11 @@ def exit_with_error(message):
     sys.exit(1)
 
 
-def read_profile(profile: str) -> Dict[str, Any]:
-    config = {
-        "engine": "text-davinci-003",
-        "temperature": 0.3,
-        "n": 1,
-        "top_p": 1,
-        "frequency_penalty": 0,
-        "presence_penalty": 0,
-        "max_tokens": 1000,
-        "prompt_template": "{{__INPUT__}}"
-    }
+def get_profile_loader(profile_dir: str) -> ProfileLoader:
+    if profile_dir is None:
+        profile_dir = f"{CONFIG_DIR}/profiles"
 
-    if os.path.exists(get_profile_path("default")):
-        merge_config_from_file(config, "default")
-
-    if profile != 'default' and profile is not None:
-        merge_config_from_file(config, profile)
-
-    return config
-
-
-def merge_config_from_file(config: Dict, profile: str) -> Dict:
-    profile_file_path = get_profile_path(profile)
-    try:
-        with open(profile_file_path) as f:
-            config.update(
-                {k: v for k, v in toml.load(f).items() if k in config})
-    except:
-        exit_with_error(
-            f"Error reading profile {profile}, file {profile_file_path}")
-
-    return config
-
-
-def get_profile_path(profile: str) -> str:
-    if profile == 'default':
-        return f"{CONFIG_DIR}/profiles/default.toml"
-    else:
-        return f"{CONFIG_DIR}/profiles/{profile}.toml"
+    return ProfileLoader(profile_dir)
 
 
 def write_output(args: Dict[str, Any], response: str):
@@ -140,6 +110,10 @@ def parse_args() -> Dict[str, Any]:
     parser.add_argument(
         '--profile',
         help='Select which configuration profile to use. If not specified, the default profile is used.')
+    parser.add_argument(
+        '--profile-dir',
+        help='The directory where the profiles are stored. If not specified, the default is ~/.ava/profiles.'
+    )
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         '--in-file', help='An optional file to read the message from')
