@@ -31,13 +31,17 @@ You can create your own profiles to suit your needs. See the [profiles](#profile
 
 1. Clone the repository:
 
-    git clone https://github.com/fazy/ava.git
-    cd ava
+```bash
+git clone https://github.com/fazy/ava.git
+cd ava
+```
 
 2. Build and install:
 
-    python -m build
-    pip install dist/ava-0.1-py3-none-any.whl
+```bash
+python -m build
+pip install dist/ava-0.1-py3-none-any.whl
+```
 
 (if you don't have the build package installed, you can install it with `pip install build`)
 
