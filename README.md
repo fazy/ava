@@ -2,7 +2,7 @@
 
 **Note: This is an experimental tool and not connected with OpenAI. Use at your own cost and risk. Whether or not I maintain it depends on whether I find it useful in practice, but feel free to fork.**
 
-Ava is a command line tool for interacting with OpenAI's chat API. It is primarily intended for providing one-off responses to perform a specific task, specified in a profile config file. There is a rudimentary interactive mode, but other tools do this better and it probably won't get much attention.
+Ava is a command line tool for interacting with OpenAI's chat API. It is primarily intended for providing one-off responses to perform a specific task, specified in a profile config file. There is a rudimentary interactive mode to help test profiles, but other tools do this better and it probably won't get much attention.
 
 ## Example uses
 
@@ -23,7 +23,7 @@ You can create your own profiles to suit your needs. See the [profiles](#profile
 ## Requirements
 
 - Python 3
-- OpenAI API key ([docs](https://beta.openai.com/docs/api-reference/authentication)))
+- OpenAI API key ([docs](https://beta.openai.com/docs/api-reference/authentication))
 
 ## Installation
 
@@ -31,13 +31,13 @@ You can create your own profiles to suit your needs. See the [profiles](#profile
 
 1. Clone the repository:
 
-   git clone https://github.com/fazy/ava.git
-   cd ava
+    git clone https://github.com/fazy/ava.git
+    cd ava
 
 2. Build and install:
 
-   python -m build
-   pip install dist/ava-0.1-py3-none-any.whl
+    python -m build
+    pip install dist/ava-0.1-py3-none-any.whl
 
 (if you don't have the build package installed, you can install it with `pip install build`)
 
