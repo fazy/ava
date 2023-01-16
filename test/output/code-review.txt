@@ -1,0 +1,5 @@
+Potential bugs or security flaws: There is no check to see if the copy operation was successful. If the copy fails, the existing backup will be renamed but the new backup will not be created.
+
+- Redundant code: The try/except block to delete the existing archive is redundant since the tar command will overwrite it.
+
+- Code that is hard to read or not idiomatic: The line `vm_archive_path = os.path.join(SOURCE, vm_archive)` is not necessary since the `tar` command takes a relative path. The line `if os.path.exists(backup_path):` should be replaced with `if os.path.isfile(backup_path):` since the `shutil.move` and `shutil.copy` functions only work on files. The last line is missing a closing parenthesis.
