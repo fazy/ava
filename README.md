@@ -7,9 +7,9 @@ Ava is a command line tool for interacting with OpenAI's chat API. It is primari
 ## Example uses
 
 * Pipe in text from any source and get a summary:
-  `cat input.txt | ava.py --profile=text-summary`
+  `cat input.txt | ava --profile=text-summary`
 * Document your code:
-  `ava.py --profile=code-doc --in-file=code.py --out-file=generated_doc.md`
+  `ava --profile=code-doc --in-file=code.py --out-file=generated_doc.md`
 
 You can create your own profiles to suit your needs. See the [profiles](#profiles) section for more details.
 
@@ -27,38 +27,45 @@ You can create your own profiles to suit your needs. See the [profiles](#profile
 
 ## Installation
 
+### From source
+
 1. Clone the repository:
-   `git clone https://github.com/fazy/ava.git`
-2. Install the dependencies (perhaps in a [virtualenv](https://virtualenv.pypa.io/en/latest/)):
-   `pip install -r requirements.txt`
-3. Set the OpenAI API key as an environment variable:
-   `export OPENAI_API_KEY=<your_api_key>`
+
+   git clone https://github.com/fazy/ava.git
+   cd ava
+
+2. Build and install:
+
+   python -m build
+   pip install dist/ava-0.1-py3-none-any.whl
+
+(if you don't have the build package installed, you can install it with `pip install build`)
 
 ## Usage
 
 For usage details:
 
-`ava.py --help`
+`ava --help`
 
 ### Non-interactive mode
 
 Provide input on stdin or with the `--in-file` flag:
 
-`ava.py --in-file=<in-file>`
+`ava --in-file=<in-file>`
 
 By default output is sent to stdout. You can also use the --out-file flag to write the response to a file:
 
-`ava.py --out-file=<out-file>`
+`ava --out-file=<out-file>`
 
 You can also specify a configuration profile to use with the `--profile` flag. These needs to be set up in your home directory first, see the [profiles](#profiles) section for more details:
 
-`ava.py --profile=<profile>`
+`ava --profile=<profile>`
 
 ### Interactive mode
 
 To converse with the chatbot, use the `--interactive` flag.:
 
-`ava.py --interactive`
+`ava --interactive`
 
 As mentioned above, it's quite basic. You can only enter one line of text at a time. Enter a blank line to exit.
 
