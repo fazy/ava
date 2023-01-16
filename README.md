@@ -45,6 +45,14 @@ pip install dist/ava-0.1-py3-none-any.whl
 
 (if you don't have the build package installed, you can install it with `pip install build`)
 
+3. Copy the profiles to your home directory:
+
+```bash
+cp -r example-profiles ~/.ava/profiles
+```
+
+Then edit them to suit your needs.
+
 ## Usage
 
 For usage details:
