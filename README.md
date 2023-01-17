@@ -108,6 +108,16 @@ max_tokens = 2000
 prompt_template = "{{__INPUT__}}"
 ```
 
+## TODO
+
+Lots of things could be better, although there's no guarantee I'll get around to it:
+
+- Handle large input files (truncating, batching?) along with showing token usage
+- More complex cases? E.g. a prompt with two parts (data and instructions) or profile variables or similar?
+- Improve the example profiles (the current ones were the first ones that worked at all)
+- Better interactive mode (e.g. allow multi-line input)
+- Housekeeping, build, test, error handling etc.
+
 ## Other
 
-Apologies for the unoriginal name, neither myself or the AI could agree on anything more unique. It is named after the character Ava from the movie Ex Machina.
+Apologies for the unoriginal name, neither myself nor the AI could agree on anything more unique. It is named after the character Ava from the movie Ex Machina.
