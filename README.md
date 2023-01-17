@@ -4,7 +4,7 @@
 
 Ava is a command line tool for interacting with OpenAI's chat API. It is primarily intended for providing one-off responses to perform a specific task, specified in a profile config file. There is a rudimentary interactive mode to help test profiles, but other tools do this better and it probably won't get much attention.
 
-## Example uses
+## Example uses
 
 * Pipe in text from any source and get a summary:
   `cat input.txt | ava --profile=text-summary`
