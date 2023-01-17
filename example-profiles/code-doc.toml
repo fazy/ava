@@ -6,7 +6,7 @@ frequency_penalty = 0
 presence_penalty = 0
 max_tokens = 2000
 prompt_template = """
-Write a user guide for the following code in Markdown format. Include instructions for running the code along with any optoins.
+Write a user guide for the following code in Markdown format. Include instructions for running the code along with any options.
 
 {{__INPUT__}}
 

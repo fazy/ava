@@ -16,12 +16,12 @@ IFS=$'\n'
 parameters="$(cat << EOF
 default         ping.txt    default-ping.txt
 code-love       code.py     code-love.txt
-code-doc        code.py     code-doc.txt
-code-review     code.py     code-review.txt
-code-summary    code.py     code-summary.txt
+code-doc        code.py     code-doc.md
+code-review     code.py     code-review.md
+code-summary    code.py     code-summary.md
 text-love       text.txt    text-love.txt
-text-review     text.txt    text-review.txt
-text-summary    text.txt    text-summary.txt
+text-review     text.txt    text-review.md
+text-summary    text.txt    text-summary.md
 EOF
 )"
 
@@ -29,7 +29,7 @@ for parameter in $parameters; do
     profile="$(echo "$parameter" | awk '{print $1}')"
     in_file="$(echo "$parameter" | awk '{print $2}')"
     out_file="$(echo "$parameter" | awk '{print $3}')"
-    echo python ava/ava.py \
+    python ava/ava.py \
         --profile-dir example-profiles \
         --profile "$profile" \
         --in-file test/input/"$in_file" \
