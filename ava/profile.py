@@ -5,7 +5,7 @@ from copy import deepcopy
 from typing import Dict, Any
 
 
-class ProfileLoader(object):
+class ProfileLoader():
     def __init__(self, profile_dir: str):
         self.profile_dir = profile_dir
 
