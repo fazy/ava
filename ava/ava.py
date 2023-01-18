@@ -63,7 +63,7 @@ def parse_args() -> Dict[str, Any]:
 def get_openai_api_key():
     api_key = os.environ.get('OPENAI_API_KEY')
     if not api_key:
-        raise Exception('OPENAI_API_KEY environment variable is not set')
+        exit_with_error('OPENAI_API_KEY environment variable is not set.')
     return api_key
 
 

@@ -23,7 +23,7 @@ You can create your own profiles to suit your needs. See the [profiles](#profile
 ## Requirements
 
 - Python 3
-- OpenAI API key ([docs](https://beta.openai.com/docs/api-reference/authentication))
+- OpenAI API key ([docs](https://beta.openai.com/docs/api-reference/authentication)) set in the environment variable `OPENAI_API_KEY`
 
 ## Installation
 
