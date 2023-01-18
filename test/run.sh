@@ -29,7 +29,7 @@ for parameter in $parameters; do
     profile="$(echo "$parameter" | awk '{print $1}')"
     in_file="$(echo "$parameter" | awk '{print $2}')"
     out_file="$(echo "$parameter" | awk '{print $3}')"
-    python ava/ava.py \
+    python -m ava.ava \
         --profile-dir example-profiles \
         --profile "$profile" \
         --in-file test/input/"$in_file" \
