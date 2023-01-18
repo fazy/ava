@@ -1,8 +1,8 @@
-# Ava: Experimental Command Line Tool for Interacting with OpenAI's Chat
+# Ava: Experimental Command Line Tool for Interacting with OpenAI's APIs
 
 **Note: This is an experimental tool and not connected with OpenAI. Use at your own cost and risk. Whether or not I maintain it depends on whether I find it useful in practice, but feel free to fork.**
 
-Ava is a command line tool for interacting with OpenAI's chat API. It is primarily intended for providing one-off responses to perform a specific task, specified in a profile config file. There is a rudimentary interactive mode to help test profiles, but other tools do this better and it probably won't get much attention.
+Ava is a command line tool for interacting with OpenAI's APIs. It is primarily intended for providing one-off responses to perform a specific task, specified in a profile config file. There is a rudimentary interactive mode to help test profiles, but other tools do this better and it probably won't get much attention.
 
 ## Example uses
 
