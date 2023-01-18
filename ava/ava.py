@@ -4,10 +4,10 @@ import argparse
 import os
 import sys
 
-from chat import ChatClient
+from ava.chat import ChatClient
+from ava.config import CHATBOT_NAME, CONFIG_DIR
+from ava.profile import ProfileLoader
 from typing import Dict, Any
-from profile import ProfileLoader
-from config import CHATBOT_NAME, CONFIG_DIR
 
 
 def main():

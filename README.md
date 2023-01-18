@@ -108,6 +108,15 @@ max_tokens = 2000
 prompt_template = "{{__INPUT__}}"
 ```
 
+## Development
+
+To run a modified copoy without building:
+
+```bash
+pip install -r requirements.txt
+python -m ava.ava
+```
+
 ## TODO
 
 Lots of things could be better, although there's no guarantee I'll get around to it:

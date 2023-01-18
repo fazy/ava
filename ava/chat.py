@@ -1,6 +1,6 @@
 import openai
 
-from config import CHATBOT_NAME
+from ava.config import CHATBOT_NAME
 from typing import Dict, Any
 
 
