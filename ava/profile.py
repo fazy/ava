@@ -1,6 +1,7 @@
 import os
 import toml
 
+from copy import deepcopy
 from typing import Dict, Any
 
 
@@ -30,17 +31,19 @@ class ProfileLoader(object):
 
     def merge_config_from_file(self, config: Dict, profile: str) -> Dict:
         profile_file_path = self.get_profile_path(profile)
+        merged_config = deepcopy(config)
+
         try:
             with open(profile_file_path) as f:
-                config.update(
-                    {k: v for k, v in toml.load(f).items() if k in config})
+                merged_config.update(
+                    {k: v for k, v in toml.load(f).items() if k in merged_config})
         except FileNotFoundError:
             raise RuntimeError(
                 f"Error reading profile {profile}, file {profile_file_path}")
         except toml.TomlDecodeError as e:
             raise RuntimeError(f"Error parsing config: {e}")
 
-        return config
+        return merged_config
 
     def get_profile_path(self, profile: str) -> str:
         if profile == 'default':
