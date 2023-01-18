@@ -28,8 +28,7 @@ def main():
                             "this could also be caused by piping stdin to this program.")
         client.converse_interactively()
     else:
-        client.converse_non_interactively(
-            profile, args['in_file'], args['out_file'])
+        client.converse_non_interactively(args['in_file'], args['out_file'])
 
 
 def parse_args() -> Dict[str, Any]:

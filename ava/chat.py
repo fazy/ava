@@ -53,19 +53,19 @@ def get_response_text(response) -> str:
     return response['choices'][0]['text']
 
 
-def read_first_user_input(args: Dict[str, Any]):
-    if args['in_file'] is not None:
-        with open(args['in_file'], 'r') as f:
+def read_first_user_input(in_file: str) -> str:
+    if in_file is not None:
+        with open(in_file, 'r') as f:
             return f.read()
     else:
         return sys.stdin.read()
 
 
-def write_output(args: Dict[str, Any], response: str):
+def write_output(out_file: str, response: str):
     formatted = format_response(response)
 
-    if args['out_file']:
-        with open(args['out_file'], 'w') as f:
+    if out_file:
+        with open(out_file, 'w') as f:
             f.write(formatted)
     else:
         print(formatted)
