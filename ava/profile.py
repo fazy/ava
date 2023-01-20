@@ -1,8 +1,7 @@
-import os
-import toml
-
-from copy import deepcopy
 from typing import Dict, Any
+from copy import deepcopy
+import toml
+import os
 
 
 class ProfileLoader():
