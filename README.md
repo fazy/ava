@@ -40,7 +40,7 @@ cd ava
 
 ```bash
 python -m build
-pip install dist/ava-0.1-py3-none-any.whl
+pip install dist/ava-0.1.1-py3-none-any.whl
 ```
 
 (if you don't have the build package installed, you can install it with `pip install build`)
